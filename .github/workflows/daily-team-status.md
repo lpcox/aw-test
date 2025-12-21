@@ -17,14 +17,38 @@ permissions:
   contents: read
   issues: read
   pull-requests: read
-network: defaults
+
+features:
+  mcp-gateway: true
+
+sandbox:
+  agent: awf
+  mcp:
+    container: "ghcr.io/githubnext/gh-aw-mcpg:latest"
+    args:
+      ["--rm", "-i", "-v", "/var/run/docker.sock:/var/run/docker.sock", "-p", "8000:8000", "--entrypoint", "/app/flowguard-go"]
+    entrypointArgs: 
+      ["--routed", "--listen", "0.0.0.0:8000", "--config-stdin"]
+    port: 8000
+    env: 
+      "DOCKER_API_VERSION": "1.44" 
+      "GITHUB_PERSONAL_ACCESS_TOKEN": $GITHUB_PERSONAL_ACCESS_TOKEN"${{ secrets.GITHUB_TOKEN }}"
+
+network:
+  allowed:
+    - "github.com"
+#network: defaults
+
 tools:
   github:
+    mode: local 
+
 safe-outputs:
   create-discussion:
     title-prefix: "[team-status] "
     category: "announcements"
-source: githubnext/agentics/workflows/daily-team-status.md@40621ee463af2bbaa0539328d6bc643c1c11c1f0
+source: githubnext/agentics/workflows/daily-team-status.md@3d982b164c8c2a65fc8da744c2c997044375c44d
+
 ---
 
 # Daily Team Status
