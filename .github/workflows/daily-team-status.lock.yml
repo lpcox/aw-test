@@ -1784,7 +1784,7 @@ jobs:
           mkdir -p /tmp/gh-aw/mcp-gateway-logs
           echo 'Starting MCP Gateway...'
           # Start MCP gateway in background with config piped via stdin
-          echo '{"mcpServers":{"github":{"mode":"local"},"safe-outputs":{}},"gateway":{"port":8000}}' | docker run -d --rm --init --name mcp-gateway -p 8000:8000 -e NO_COLOR=1 -e TERM=dumb -e USE_STDIN_CONFIG=true -e FLOWGUARD_MCP_MODE=routed -e DISABLE_DIFC=true -e DOCKER_API_VERSION=1.44 -e GITHUB_PERSONAL_ACCESS_TOKEN=${{ secrets.GH_TOKEN }} -e ENABLE_TMUX=false -e CODEX_AUTH_JSON=${{ secrets.CODEX_AUTH_JSON }} -e MCP_GATEWAY_LOG_DIR=/tmp/gh-aw/mcp-gateway-logs -e DOCKER_API_VERSION=1.44 -e GITHUB_PERSONAL_ACCESS_TOKEN=$GITHUB_PERSONAL_ACCESS_TOKEN"${{ secrets.GITHUB_TOKEN }}" -v /tmp/gh-aw/mcp-gateway-logs:/tmp/gh-aw/mcp-gateway-logs -v /var/run/docker.sock:/var/run/docker.sock ghcr.io/githubnext/gh-aw-mcpg:latest --rm -i -v /var/run/docker.sock:/var/run/docker.sock -p 8000:8000 --entrypoint /app/flowguard-go --routed --listen 0.0.0.0:8000 --config-stdin
+          echo '{"mcpServers":{"github":{"mode":"local"},"safe-outputs":{}},"gateway":{"port":8000}}' | docker run -d --rm --init --name mcp-gateway -p 8000:8000 -e NO_COLOR=1 -e TERM=dumb -e USE_STDIN_CONFIG=true -e FLOWGUARD_MCP_MODE=routed -e DISABLE_DIFC=true -e DOCKER_API_VERSION=1.44 -e GITHUB_PERSONAL_ACCESS_TOKEN=${{ secrets.GH_TOKEN }} -e ENABLE_TMUX=false -e CODEX_AUTH_JSON=${{ secrets.CODEX_AUTH_JSON }} -e MCP_GATEWAY_LOG_DIR=/tmp/gh-aw/mcp-gateway-logs -e GITHUB_PERSONAL_ACCESS_TOKEN=$GITHUB_PERSONAL_ACCESS_TOKEN"${{ secrets.GITHUB_TOKEN }}" -e DOCKER_API_VERSION=1.44 -v /tmp/gh-aw/mcp-gateway-logs:/tmp/gh-aw/mcp-gateway-logs -v /var/run/docker.sock:/var/run/docker.sock ghcr.io/githubnext/gh-aw-mcpg:latest --rm -i -v /var/run/docker.sock:/var/run/docker.sock -p 8000:8000 --entrypoint /app/flowguard-go --routed --listen 0.0.0.0:8000 --config-stdin
           echo 'MCP Gateway started'
       - name: Verify MCP Gateway Health
         run: |
@@ -1816,14 +1816,14 @@ jobs:
             "mcpServers": {
               "github": {
                 "type": "http",
-                "url": "http://localhost:8000/mcp/mcp/github",
+                "url": "http://localhost:8000/mcp/github",
                 "tools": [
                   "*"
                 ]
               },
               "safe-outputs": {
                 "type": "http",
-                "url": "http://localhost:8000/mcp/mcp/safe-outputs",
+                "url": "http://localhost:8000/mcp/safe-outputs",
                 "tools": [
                   "*"
                 ]
